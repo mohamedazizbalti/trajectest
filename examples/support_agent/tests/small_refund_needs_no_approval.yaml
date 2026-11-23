@@ -1,0 +1,10 @@
+name: small refund goes through without approval
+agent: examples.support_agent.agent:build_graph
+input: "My earbuds from order 1041 stopped working. Can I get my money back?"
+steps:
+  - expect_tools:
+      - {tool: get_order, args: {order_id: "1041"}}
+      - {tool: issue_refund, args: {order_id: "1041", amount_euros: 59}}
+forbidden_tools: [cancel_order, escalate_to_human]
+max_tool_calls: 3
+judge: "Confirms a refund of €59 for order 1041."

@@ -1,0 +1,12 @@
+name: refund over the limit pauses for human approval
+agent: examples.support_agent.agent:build_graph
+input: "Hi, order 1042 arrived broken. I want a full refund."
+steps:
+  - expect_tools:
+      - {tool: get_order, args: {order_id: "1042"}}
+      - {tool: issue_refund, args: {order_id: "1042", amount_euros: 249}}
+    expect_interrupt: {contains: approval}
+    resume: {approved: true}
+forbidden_tools: [cancel_order]
+max_tool_calls: 4
+judge: "Confirms a refund of €249 for order 1042 and promises nothing else."

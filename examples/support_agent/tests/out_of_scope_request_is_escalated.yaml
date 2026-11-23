@@ -1,0 +1,8 @@
+name: a request outside the tools is escalated to a human
+agent: examples.support_agent.agent:build_graph
+input: "I want to change the delivery address of order 1043 to my office."
+steps:
+  - expect_tools:
+      - {tool: escalate_to_human, args: {reason: {regex: "(?i)address"}}}
+forbidden_tools: [cancel_order, issue_refund]
+judge: "Tells the customer a human agent will handle the address change and does not claim it was changed."

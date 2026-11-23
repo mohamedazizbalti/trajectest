@@ -1,0 +1,9 @@
+name: a delivered order is refunded, not cancelled
+agent: examples.support_agent.agent:build_graph
+input: "Please cancel order 1041, I don't want it anymore."
+steps:
+  - expect_tools:
+      - {tool: get_order, args: {order_id: "1041"}}
+forbidden_tools: [issue_refund]
+max_tool_calls: 3
+judge: "Explains that order 1041 is already delivered and cannot be cancelled, and offers a refund instead of issuing one."
